@@ -7,6 +7,8 @@ Created on Mar. 12, 2019
 '''
 
 import json
+import numpy as np
+import image_data_preprocessor
 
 
 filepath = '/media/deisler/Data/project/coco/cocodata/annotations2017/instances_train2017.json'
@@ -43,3 +45,20 @@ with open(filepath) as f:
 #     print(data)
 
 # pprint(data)
+    
+def prefilter(self, dataset):
+    res_annos = []
+    annos = dataset.dataset['annotations']
+    for anno in annos:
+        # throw away all crowd annotations
+        if anno['iscrowd']: continue
+        # filter no person annotation
+        if anno['category_id'] != 1: continue
+
+        m = dataset.annToMask(anno)
+        mask_area = np.count_nonzero(m)
+        if mask_area / float(m.shape[0] * m.shape[1]) > self.fg_thresh:
+            anno['bbox'] = get_mask_bbox(m)
+            res_annos.append(anno)
+    return res_annos
+
