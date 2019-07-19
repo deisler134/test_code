@@ -5,7 +5,7 @@ Created on Jul. 17, 2019
     note:
         pip install pydensecrf
     
-@author: deisler
+@author: Deisler
 '''
 import numpy as np
 import pydensecrf.densecrf as dcrf
@@ -157,15 +157,15 @@ def crf_test():
         crf_mask = generate_crf_mask(mkpath)
         
         if crf_demo and img is not None:
-            if len(crf_mask.shape) < 3:
-                crf_mask = np.expand_dims(crf_mask, -1)
-                print('crf_mask expand_shape:',crf_mask.shape)
+#             if len(crf_mask.shape) < 3:
+#                 crf_mask = np.expand_dims(crf_mask, -1)
+#                 print('crf_mask expand_shape:',crf_mask.shape)
             crf_mask = crf_demo(img, crf_mask)
             crf_mask = np.argmax(crf_mask, axis=0)
             crfmaskpath = os.path.join(maskpath, imagename[:-4]+'_crfmask.jpg')
-            if len(crf_mask.shape) < 3:
-                crf_mask = np.expand_dims(crf_mask, -1)
-                print('crf_mask expand_shape:',crf_mask.shape)
+#             if len(crf_mask.shape) < 3:
+#                 crf_mask = np.expand_dims(crf_mask, -1)
+#                 print('crf_mask expand_shape:',crf_mask.shape)
             cv.imwrite(crfmaskpath, crf_mask)
             print(crf_mask.shape)
 
